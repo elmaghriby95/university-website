@@ -39,20 +39,20 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
                 @php
-                    $siteLogo = \App\Models\Setting::get('site_logo');
+                    $siteLogoUrl = \App\Models\Setting::logoUrl();
                     $logoHeight = (int) (\App\Models\Setting::get('logo_height', 48) ?: 48);
                     $logoWidth = \App\Models\Setting::get('logo_width');
                     $logoShowName = \App\Models\Setting::get('logo_show_name', '1') === '1';
                 @endphp
-                @if($siteLogo)
-                    <img src="{{ asset('storage/'.$siteLogo) }}"
+                @if($siteLogoUrl)
+                    <img src="{{ $siteLogoUrl }}"
                          alt="{{ $siteName }}"
                          class="site-logo"
                          style="height: {{ $logoHeight }}px; @if($logoWidth) width: {{ (int) $logoWidth }}px; @endif">
                 @else
                     <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
                 @endif
-                @if($logoShowName || ! $siteLogo)
+                @if($logoShowName || ! $siteLogoUrl)
                     <span>
                         <strong class="d-block lh-1">{{ $siteName }}</strong>
                         <small class="opacity-75">{{ $siteTagline }}</small>
@@ -85,9 +85,8 @@
             <div class="row g-4">
                 <div class="col-lg-4">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        @if($siteLogo ?? \App\Models\Setting::get('site_logo'))
-                            @php $footerLogo = $siteLogo ?? \App\Models\Setting::get('site_logo'); @endphp
-                            <img src="{{ asset('storage/'.$footerLogo) }}" alt="{{ $siteName }}" style="height: 40px; object-fit: contain;">
+                        @if($siteLogoUrl ?? \App\Models\Setting::logoUrl())
+                            <img src="{{ $siteLogoUrl ?? \App\Models\Setting::logoUrl() }}" alt="{{ $siteName }}" style="height: 40px; object-fit: contain;">
                         @endif
                         <h5 class="text-white mb-0">{{ $siteName }}</h5>
                     </div>

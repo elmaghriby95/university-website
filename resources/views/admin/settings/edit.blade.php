@@ -48,9 +48,10 @@
                 @if(!empty($settings['site_logo']))
                     <div class="p-3 rounded border bg-light">
                         <div class="small text-muted mb-2">الشعار الحالي</div>
-                        <img src="{{ asset('storage/'.$settings['site_logo']) }}"
+                        <img src="{{ \App\Models\Setting::logoUrl($settings['site_logo']) }}"
                              alt="شعار الجامعة"
                              style="height: {{ (int) ($settings['logo_height'] ?: 48) }}px; @if($settings['logo_width']) width: {{ (int) $settings['logo_width'] }}px; @endif object-fit: contain;">
+                        <div class="small text-muted mt-2">المسار: {{ $settings['site_logo'] }}</div>
                         <div class="form-check mt-3 mb-0">
                             <input class="form-check-input" type="checkbox" name="remove_logo" value="1" id="remove_logo">
                             <label class="form-check-label text-danger" for="remove_logo">حذف الشعار الحالي</label>

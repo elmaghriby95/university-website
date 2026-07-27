@@ -23,4 +23,19 @@ class Setting extends Model
         static::query()->updateOrCreate(['key' => $key], ['value' => $value]);
         Cache::forget('site_settings');
     }
+
+    public static function logoUrl(?string $path = null): ?string
+    {
+        $path = $path ?? static::get('site_logo');
+
+        if (! $path) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'uploads/')) {
+            return asset($path);
+        }
+
+        return asset('storage/'.$path);
+    }
 }

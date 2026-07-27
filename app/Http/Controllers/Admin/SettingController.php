@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class SettingController extends Controller
@@ -57,13 +57,20 @@ class SettingController extends Controller
         ]);
 
         if ($request->boolean('remove_logo')) {
-            $this->deleteLogo(Setting::get('site_logo'));
+            $this->deleteLogoFile(Setting::get('site_logo'));
             Setting::set('site_logo', '');
         }
 
         if ($request->hasFile('site_logo')) {
-            $this->deleteLogo(Setting::get('site_logo'));
-            Setting::set('site_logo', $request->file('site_logo')->store('settings', 'public'));
+            $this->deleteLogoFile(Setting::get('site_logo'));
+
+            $directory = public_path('uploads/logos');
+            File::ensureDirectoryExists($directory);
+
+            $filename = 'logo-'.time().'.'.$request->file('site_logo')->getClientOriginalExtension();
+            $request->file('site_logo')->move($directory, $filename);
+
+            Setting::set('site_logo', 'uploads/logos/'.$filename);
         }
 
         unset($data['site_logo'], $data['remove_logo']);
@@ -81,10 +88,26 @@ class SettingController extends Controller
         return back()->with('success', 'تم حفظ الإعدادات بنجاح.');
     }
 
-    private function deleteLogo(?string $path): void
+    private function deleteLogoFile(?string $path): void
     {
-        if ($path && Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->delete($path);
+        if (! $path) {
+            return;
+        }
+
+        // New public uploads path
+        if (str_starts_with($path, 'uploads/')) {
+            $full = public_path($path);
+            if (is_file($full)) {
+                @unlink($full);
+            }
+
+            return;
+        }
+
+        // Legacy storage path
+        $legacy = storage_path('app/public/'.$path);
+        if (is_file($legacy)) {
+            @unlink($legacy);
         }
     }
 }
