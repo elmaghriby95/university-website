@@ -41,7 +41,6 @@
                         @endif
                     </td>
                     <td class="text-end text-nowrap">
-                        <a href="{{ route('admin.results.create', ['student_id' => $item->id]) }}" class="btn btn-sm btn-outline-success">نتيجة</a>
                         <a href="{{ route('admin.students.edit', $item) }}" class="btn btn-sm btn-outline-primary">تعديل</a>
                         <form action="{{ route('admin.students.reset-secret', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('توليد رقم سري جديد؟')">
                             @csrf

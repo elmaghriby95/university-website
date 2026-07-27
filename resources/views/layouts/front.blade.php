@@ -54,7 +54,6 @@
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('faculties.*') ? 'active' : '' }}" href="{{ route('faculties.index') }}">الكليات</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('admissions') ? 'active' : '' }}" href="{{ route('admissions') }}">القبول والتسجيل</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('students.register*') ? 'active' : '' }}" href="{{ route('students.register') }}">تسجيل طالب</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('results.*') ? 'active' : '' }}" href="{{ route('results.lookup') }}">الاستعلام عن النتيجة</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}" href="{{ route('news.index') }}">الأخبار</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('events.*') ? 'active' : '' }}" href="{{ route('events.index') }}">الفعاليات</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">اتصل بنا</a></li>
@@ -79,7 +78,7 @@
                         <li><a href="{{ route('about') }}">عن الجامعة</a></li>
                         <li><a href="{{ route('faculties.index') }}">الكليات</a></li>
                         <li><a href="{{ route('students.register') }}">تسجيل طالب</a></li>
-                        <li><a href="{{ route('results.lookup') }}">الاستعلام عن النتيجة</a></li>
+                        <li><a href="{{ route('admissions') }}">القبول</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-3">

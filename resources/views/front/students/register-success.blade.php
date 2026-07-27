@@ -17,7 +17,7 @@
                 <div class="content-card text-center">
                     <div class="mb-3 text-success"><i class="bi bi-check-circle" style="font-size:3rem"></i></div>
                     <h2 class="h4 mb-1">مرحباً {{ $student_name }}</h2>
-                    <p class="text-muted mb-4">بيانات الدخول للاستعلام عن النتيجة:</p>
+                    <p class="text-muted mb-4">بيانات تسجيل الطالب:</p>
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
@@ -35,11 +35,10 @@
                     </div>
 
                     <div class="alert alert-warning text-start">
-                        النتيجة لا تُعرض إلا بإدخال <strong>رقم القيد</strong> و<strong>الرقم السري</strong> معاً. لا تشارك الرقم السري مع أحد.
+                        احفظ <strong>رقم القيد</strong> و<strong>الرقم السري</strong> في مكان آمن، ولا تشارك الرقم السري مع أحد.
                     </div>
 
-                    <a href="{{ route('results.lookup') }}" class="btn btn-navy px-4">الاستعلام عن النتيجة</a>
-                    <a href="{{ route('home') }}" class="btn btn-outline-secondary">العودة للرئيسية</a>
+                    <a href="{{ route('home') }}" class="btn btn-navy px-4">العودة للرئيسية</a>
                 </div>
             </div>
         </div>

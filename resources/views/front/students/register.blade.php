@@ -6,7 +6,7 @@
 <section class="page-hero">
     <div class="container">
         <h1>تسجيل طالب جديد</h1>
-        <p class="mb-0 opacity-75">أدخل بياناتك للحصول على رقم قيد ورقم سري للاستعلام عن النتائج</p>
+        <p class="mb-0 opacity-75">أدخل بياناتك لإتمام تسجيل طالب جديد في الجامعة</p>
     </div>
 </section>
 
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-navy px-4">إتمام التسجيل</button>
-                                <a href="{{ route('results.lookup') }}" class="btn btn-outline-secondary">لدي رقم قيد؟ استعلم عن النتيجة</a>
+                                <a href="{{ route('home') }}" class="btn btn-outline-secondary">العودة للرئيسية</a>
                             </div>
                         </div>
                     </form>
