@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/media/site-logo', [MediaController::class, 'siteLogo'])->name('media.logo');
+Route::get('/media/{path}', [MediaController::class, 'file'])->where('path', '.*')->name('media.file');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/admissions', [HomeController::class, 'admissions'])->name('admissions');
 Route::get('/faculties', [HomeController::class, 'faculties'])->name('faculties.index');

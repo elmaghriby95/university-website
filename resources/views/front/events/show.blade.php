@@ -16,8 +16,8 @@
 <section class="py-5">
     <div class="container">
         <div class="content-card">
-            @if($event->image)
-                <img src="{{ asset('storage/'.$event->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $event->title }}">
+            @if($event->image && media_url($event->image))
+                <img src="{{ media_url($event->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $event->title }}">
             @endif
             <div>{!! nl2br(e($event->content ?: $event->excerpt)) !!}</div>
         </div>

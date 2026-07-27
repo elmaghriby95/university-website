@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faculty;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 use App\Support\Slug;
+use Illuminate\Http\Request;
 
 class FacultyController extends Controller
 {
@@ -98,13 +98,11 @@ class FacultyController extends Controller
 
     private function storeImage(Request $request): ?string
     {
-        return $request->hasFile('image') ? $request->file('image')->store('faculties', 'public') : null;
+        return $request->hasFile('image') ? Media::store($request->file('image'), 'faculties') : null;
     }
 
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        Media::delete($path);
     }
 }

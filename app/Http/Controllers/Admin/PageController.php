@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 use App\Support\Slug;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -95,13 +95,11 @@ class PageController extends Controller
 
     private function storeImage(Request $request): ?string
     {
-        return $request->hasFile('image') ? $request->file('image')->store('pages', 'public') : null;
+        return $request->hasFile('image') ? Media::store($request->file('image'), 'pages') : null;
     }
 
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        Media::delete($path);
     }
 }

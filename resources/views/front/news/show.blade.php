@@ -15,8 +15,8 @@
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="content-card">
-                    @if($news->image)
-                        <img src="{{ asset('storage/'.$news->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $news->title }}">
+                    @if($news->image && media_url($news->image))
+                        <img src="{{ media_url($news->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $news->title }}">
                     @endif
                     <div>{!! nl2br(e($news->content)) !!}</div>
                 </div>

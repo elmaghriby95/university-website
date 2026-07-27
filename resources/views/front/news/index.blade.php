@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('news.show', $item) }}" class="text-decoration-none text-dark">
                         <article class="feature-tile">
-                            <div class="media" @if($item->image) style="background-image:url('{{ asset('storage/'.$item->image) }}')" @endif></div>
+                            <div class="media" @if($item->image && media_url($item->image)) style="background-image:url('{{ media_url($item->image) }}')" @endif></div>
                             <div class="body">
                                 <div class="small text-muted mb-2">{{ optional($item->published_at)->format('Y/m/d') }}</div>
                                 <h5>{{ $item->title }}</h5>

@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('events.show', $event) }}" class="text-decoration-none text-dark">
                         <article class="feature-tile">
-                            <div class="media" @if($event->image) style="background-image:url('{{ asset('storage/'.$event->image) }}')" @endif></div>
+                            <div class="media" @if($event->image && media_url($event->image)) style="background-image:url('{{ media_url($event->image) }}')" @endif></div>
                             <div class="body">
                                 <div class="small fw-bold text-warning-emphasis mb-2">
                                     <i class="bi bi-calendar-event"></i> {{ $event->starts_at->format('Y/m/d H:i') }}

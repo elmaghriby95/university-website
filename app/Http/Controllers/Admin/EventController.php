@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 use App\Support\Slug;
+use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -95,13 +95,11 @@ class EventController extends Controller
 
     private function storeImage(Request $request): ?string
     {
-        return $request->hasFile('image') ? $request->file('image')->store('events', 'public') : null;
+        return $request->hasFile('image') ? Media::store($request->file('image'), 'events') : null;
     }
 
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        Media::delete($path);
     }
 }

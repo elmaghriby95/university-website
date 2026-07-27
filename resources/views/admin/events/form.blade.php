@@ -36,7 +36,7 @@
             <div class="col-md-6">
                 <label class="form-label">الصورة</label>
                 <input type="file" name="image" class="form-control" accept="image/*">
-                @if($item->image)<img src="{{ asset('storage/'.$item->image) }}" class="mt-2 rounded" style="max-height:100px" alt="">@endif
+                @if($item->image && media_url($item->image))<img src="{{ media_url($item->image) }}" class="mt-2 rounded" style="max-height:100px" alt="">@endif
             </div>
             <div class="col-md-6 d-flex align-items-end">
                 <div class="form-check">

@@ -18,8 +18,8 @@
 <section class="py-5">
     <div class="container">
         <div class="content-card">
-            @if($page->image)
-                <img src="{{ asset('storage/'.$page->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $page->title }}">
+            @if($page->image && media_url($page->image))
+                <img src="{{ media_url($page->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:420px;object-fit:cover" alt="{{ $page->title }}">
             @endif
             <div class="page-content">{!! nl2br(e($page->content)) !!}</div>
         </div>

@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('faculties.show', $faculty) }}" class="text-decoration-none text-dark">
                         <article class="feature-tile">
-                            <div class="media" @if($faculty->image) style="background-image:url('{{ asset('storage/'.$faculty->image) }}')" @endif></div>
+                            <div class="media" @if($faculty->image && media_url($faculty->image)) style="background-image:url('{{ media_url($faculty->image) }}')" @endif></div>
                             <div class="body">
                                 <h5>{{ $faculty->name }}</h5>
                                 <p class="text-muted small">{{ \Illuminate\Support\Str::limit(strip_tags($faculty->description), 110) }}</p>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class SettingController extends Controller
@@ -57,25 +57,16 @@ class SettingController extends Controller
         ]);
 
         if ($request->boolean('remove_logo')) {
-            $this->deleteLogoFile(Setting::get('site_logo'));
+            Media::delete(Setting::get('site_logo'));
             Setting::set('site_logo', '');
         }
 
         if ($request->hasFile('site_logo')) {
-            $this->deleteLogoFile(Setting::get('site_logo'));
+            Media::delete(Setting::get('site_logo'));
+            $relative = Media::store($request->file('site_logo'), 'logos');
 
-            $directory = public_path('uploads/logos');
-            File::ensureDirectoryExists($directory);
-
-            $extension = strtolower($request->file('site_logo')->getClientOriginalExtension() ?: 'png');
-            $filename = 'logo-'.time().'.'.$extension;
-            $request->file('site_logo')->move($directory, $filename);
-
-            $relative = 'uploads/logos/'.$filename;
-            $full = public_path($relative);
-
-            if (! is_file($full)) {
-                return back()->with('error', 'فشل حفظ ملف الشعار على السيرفر. تحقق من صلاحيات مجلد public/uploads/logos');
+            if (! Media::exists($relative)) {
+                return back()->with('error', 'فشل حفظ ملف الشعار على السيرفر. تحقق من صلاحيات مجلد public/uploads');
             }
 
             Setting::set('site_logo', $relative);
@@ -94,28 +85,5 @@ class SettingController extends Controller
         }
 
         return back()->with('success', 'تم حفظ الإعدادات بنجاح.');
-    }
-
-    private function deleteLogoFile(?string $path): void
-    {
-        if (! $path) {
-            return;
-        }
-
-        // New public uploads path
-        if (str_starts_with($path, 'uploads/')) {
-            $full = public_path($path);
-            if (is_file($full)) {
-                @unlink($full);
-            }
-
-            return;
-        }
-
-        // Legacy storage path
-        $legacy = storage_path('app/public/'.$path);
-        if (is_file($legacy)) {
-            @unlink($legacy);
-        }
     }
 }

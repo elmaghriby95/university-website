@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -77,13 +77,11 @@ class SliderController extends Controller
 
     private function storeImage(Request $request): ?string
     {
-        return $request->hasFile('image') ? $request->file('image')->store('sliders', 'public') : null;
+        return $request->hasFile('image') ? Media::store($request->file('image'), 'sliders') : null;
     }
 
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        Media::delete($path);
     }
 }

@@ -7,7 +7,7 @@
     <div class="carousel-inner">
         @forelse($sliders as $i => $slider)
             <div class="carousel-item {{ $i === 0 ? 'active' : '' }}"
-                 style="background-image: url('{{ $slider->image ? asset('storage/'.$slider->image) : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80' }}');">
+                 style="background-image: url('{{ $slider->image && media_url($slider->image) ? media_url($slider->image) : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80' }}');">
                 <div class="container hero-content fade-up">
                     <div class="brand-line">{{ $siteName }}</div>
                     <h1>{{ $slider->title }}</h1>
@@ -98,7 +98,7 @@
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('faculties.show', $faculty) }}" class="text-decoration-none text-dark">
                         <article class="feature-tile">
-                            <div class="media" @if($faculty->image) style="background-image:url('{{ asset('storage/'.$faculty->image) }}')" @endif></div>
+                            <div class="media" @if($faculty->image && media_url($faculty->image)) style="background-image:url('{{ media_url($faculty->image) }}')" @endif></div>
                             <div class="body">
                                 <h5 class="mb-2">{{ $faculty->name }}</h5>
                                 <p class="text-muted small mb-0">{{ \Illuminate\Support\Str::limit(strip_tags($faculty->description), 90) }}</p>
@@ -125,7 +125,7 @@
                 <div class="col-md-4">
                     <a href="{{ route('news.show', $item) }}" class="text-decoration-none text-dark">
                         <article class="feature-tile">
-                            <div class="media" @if($item->image) style="background-image:url('{{ asset('storage/'.$item->image) }}')" @endif></div>
+                            <div class="media" @if($item->image && media_url($item->image)) style="background-image:url('{{ media_url($item->image) }}')" @endif></div>
                             <div class="body">
                                 <div class="small text-muted mb-2">{{ optional($item->published_at)->format('Y/m/d') }}</div>
                                 <h5 class="mb-2">{{ $item->title }}</h5>

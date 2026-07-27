@@ -17,8 +17,8 @@
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="content-card">
-                    @if($faculty->image)
-                        <img src="{{ asset('storage/'.$faculty->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:360px;object-fit:cover" alt="{{ $faculty->name }}">
+                    @if($faculty->image && media_url($faculty->image))
+                        <img src="{{ media_url($faculty->image) }}" class="img-fluid rounded-3 mb-4 w-100" style="max-height:360px;object-fit:cover" alt="{{ $faculty->name }}">
                     @endif
                     <div>{!! nl2br(e($faculty->description)) !!}</div>
                 </div>

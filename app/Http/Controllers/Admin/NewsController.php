@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Media;
 use App\Support\Slug;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -100,13 +100,11 @@ class NewsController extends Controller
             return null;
         }
 
-        return $request->file('image')->store('news', 'public');
+        return Media::store($request->file('image'), 'news');
     }
 
     private function deleteImage(?string $path): void
     {
-        if ($path) {
-            Storage::disk('public')->delete($path);
-        }
+        Media::delete($path);
     }
 }

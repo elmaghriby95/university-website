@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -26,39 +27,16 @@ class Setting extends Model
 
     public static function logoFullPath(?string $path = null): ?string
     {
-        $path = $path ?? static::get('site_logo');
-
-        if (! $path) {
-            return null;
-        }
-
-        if (str_starts_with($path, 'uploads/')) {
-            return public_path($path);
-        }
-
-        return storage_path('app/public/'.$path);
+        return Media::fullPath($path ?? static::get('site_logo'));
     }
 
     public static function logoExists(?string $path = null): bool
     {
-        $full = static::logoFullPath($path);
-
-        return $full && is_file($full);
+        return Media::exists($path ?? static::get('site_logo'));
     }
 
-    /**
-     * Always serve via Laravel route so it works even if APP_URL / storage link is wrong.
-     */
     public static function logoUrl(?string $path = null): ?string
     {
-        $path = $path ?? static::get('site_logo');
-
-        if (! $path || ! static::logoExists($path)) {
-            return null;
-        }
-
-        $version = @filemtime(static::logoFullPath($path)) ?: time();
-
-        return route('media.logo', ['v' => $version]);
+        return Media::url($path ?? static::get('site_logo'));
     }
 }
