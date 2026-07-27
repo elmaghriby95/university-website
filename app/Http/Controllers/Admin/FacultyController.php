@@ -30,7 +30,7 @@ class FacultyController extends Controller
 
         Faculty::query()->create($data);
 
-        return redirect()->route('admin.faculties.index')->with('success', 'تمت إضافة الكلية بنجاح.');
+        return redirect()->route('admin.faculties.index')->with('success', 'تمت إضافة القسم بنجاح.');
     }
 
     public function edit(Faculty $faculty)
@@ -51,7 +51,7 @@ class FacultyController extends Controller
 
         $faculty->update($data);
 
-        return redirect()->route('admin.faculties.index')->with('success', 'تم تحديث الكلية بنجاح.');
+        return redirect()->route('admin.faculties.index')->with('success', 'تم تحديث القسم بنجاح.');
     }
 
     public function destroy(Faculty $faculty)
@@ -59,7 +59,7 @@ class FacultyController extends Controller
         $this->deleteImage($faculty->image);
         $faculty->delete();
 
-        return redirect()->route('admin.faculties.index')->with('success', 'تم حذف الكلية.');
+        return redirect()->route('admin.faculties.index')->with('success', 'تم حذف القسم.');
     }
 
     private function validated(Request $request): array

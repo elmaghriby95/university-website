@@ -32,7 +32,7 @@ class StudentController extends Controller
             'email' => 'البريد الإلكتروني',
             'phone' => 'الهاتف',
             'national_id' => 'الرقم الوطني',
-            'faculty_id' => 'الكلية',
+            'faculty_id' => 'القسم',
             'gender' => 'الجنس',
             'birth_date' => 'تاريخ الميلاد',
             'address' => 'العنوان',

@@ -12,12 +12,15 @@
     @stack('styles')
 </head>
 <body>
+    @php
+        $hasSocial = \App\Models\Setting::get('facebook')
+            || \App\Models\Setting::get('twitter')
+            || \App\Models\Setting::get('instagram')
+            || \App\Models\Setting::get('youtube');
+    @endphp
+    @if($hasSocial)
     <div class="topbar py-2 d-none d-md-block">
-        <div class="container d-flex justify-content-between align-items-center small">
-            <div>
-                <span class="me-3"><i class="bi bi-envelope"></i> {{ \App\Models\Setting::get('contact_email', 'info@university.edu') }}</span>
-                <span><i class="bi bi-telephone"></i> {{ \App\Models\Setting::get('contact_phone', '021-0000000') }}</span>
-            </div>
+        <div class="container d-flex justify-content-end align-items-center small">
             <div class="social-links">
                 @if(\App\Models\Setting::get('facebook'))
                     <a href="{{ \App\Models\Setting::get('facebook') }}" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a>
@@ -34,6 +37,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <nav class="navbar navbar-expand-lg navbar-dark site-nav sticky-top">
         <div class="container">
@@ -66,7 +70,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">الرئيسية</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">عن الجامعة</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('faculties.*') ? 'active' : '' }}" href="{{ route('faculties.index') }}">الكليات</a></li>
+                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('faculties.*') ? 'active' : '' }}" href="{{ route('faculties.index') }}">الأقسام</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('admissions') ? 'active' : '' }}" href="{{ route('admissions') }}">القبول والتسجيل</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('students.register*') ? 'active' : '' }}" href="{{ route('students.register') }}">تسجيل طالب</a></li>
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}" href="{{ route('news.index') }}">الأخبار</a></li>
@@ -96,7 +100,7 @@
                     <h6 class="text-white mb-3">روابط سريعة</h6>
                     <ul class="list-unstyled footer-links">
                         <li><a href="{{ route('about') }}">عن الجامعة</a></li>
-                        <li><a href="{{ route('faculties.index') }}">الكليات</a></li>
+                        <li><a href="{{ route('faculties.index') }}">الأقسام</a></li>
                         <li><a href="{{ route('students.register') }}">تسجيل طالب</a></li>
                         <li><a href="{{ route('admissions') }}">القبول</a></li>
                     </ul>

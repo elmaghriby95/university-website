@@ -14,7 +14,7 @@
                 <input type="text" name="full_name" value="{{ old('full_name', $item->full_name) }}" class="form-control" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">الكلية</label>
+                <label class="form-label">القسم</label>
                 <select name="faculty_id" class="form-select">
                     <option value="">—</option>
                     @foreach($faculties as $faculty)

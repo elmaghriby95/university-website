@@ -24,9 +24,9 @@
                                 @error('full_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">الكلية</label>
+                                <label class="form-label">القسم</label>
                                 <select name="faculty_id" class="form-select @error('faculty_id') is-invalid @enderror" required>
-                                    <option value="">اختر الكلية</option>
+                                    <option value="">اختر القسم</option>
                                     @foreach($faculties as $faculty)
                                         <option value="{{ $faculty->id }}" @selected(old('faculty_id') == $faculty->id)>{{ $faculty->name }}</option>
                                     @endforeach

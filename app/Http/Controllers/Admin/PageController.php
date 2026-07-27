@@ -56,10 +56,6 @@ class PageController extends Controller
 
     public function destroy(Page $page)
     {
-        if (in_array($page->slug, ['about', 'admissions'], true)) {
-            return back()->with('error', 'لا يمكن حذف الصفحات الأساسية.');
-        }
-
         $this->deleteImage($page->image);
         $page->delete();
 

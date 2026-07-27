@@ -7,7 +7,7 @@
     <div class="container">
         <h1>{{ $faculty->name }}</h1>
         @if($faculty->dean)
-            <p class="mb-0 opacity-75">عميد الكلية: {{ $faculty->dean }}</p>
+            <p class="mb-0 opacity-75">رئيس القسم: {{ $faculty->dean }}</p>
         @endif
     </div>
 </section>
@@ -28,12 +28,12 @@
                     <h5 class="mb-3">معلومات سريعة</h5>
                     <ul class="list-unstyled mb-0">
                         <li class="mb-2"><i class="bi bi-people text-primary"></i> عدد الطلاب: <strong>{{ $faculty->students_count }}</strong></li>
-                        <li class="mb-2"><i class="bi bi-building text-primary"></i> عدد الأقسام: <strong>{{ $faculty->departments_count }}</strong></li>
+                        <li class="mb-2"><i class="bi bi-building text-primary"></i> عدد التخصصات: <strong>{{ $faculty->departments_count }}</strong></li>
                         @if($faculty->dean)
-                            <li><i class="bi bi-person-badge text-primary"></i> العميد: <strong>{{ $faculty->dean }}</strong></li>
+                            <li><i class="bi bi-person-badge text-primary"></i> رئيس القسم: <strong>{{ $faculty->dean }}</strong></li>
                         @endif
                     </ul>
-                    <a href="{{ route('admissions') }}" class="btn btn-accent w-100 mt-4">التقديم للكلية</a>
+                    <a href="{{ route('admissions') }}" class="btn btn-accent w-100 mt-4">التقديم للقسم</a>
                 </div>
             </div>
         </div>

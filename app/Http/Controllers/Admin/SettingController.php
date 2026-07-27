@@ -16,7 +16,7 @@ class SettingController extends Controller
             'site_name', 'site_tagline', 'site_logo', 'logo_height', 'logo_width',
             'logo_show_name', 'contact_email', 'contact_phone',
             'contact_address', 'facebook', 'twitter', 'instagram', 'youtube',
-            'about_short', 'students_count', 'faculties_count', 'programs_count', 'years_count',
+            'about_short', 'about_image', 'students_count', 'faculties_count', 'programs_count', 'years_count',
         ];
 
         $settings = [];
@@ -50,6 +50,8 @@ class SettingController extends Controller
             'instagram' => ['nullable', 'url', 'max:255'],
             'youtube' => ['nullable', 'url', 'max:255'],
             'about_short' => ['nullable', 'string', 'max:1000'],
+            'about_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg,webp,gif', 'max:4096'],
+            'remove_about_image' => ['nullable', 'boolean'],
             'students_count' => ['nullable', 'string', 'max:50'],
             'faculties_count' => ['nullable', 'string', 'max:50'],
             'programs_count' => ['nullable', 'string', 'max:50'],
@@ -72,7 +74,23 @@ class SettingController extends Controller
             Setting::set('site_logo', $relative);
         }
 
-        unset($data['site_logo'], $data['remove_logo']);
+        if ($request->boolean('remove_about_image')) {
+            Media::delete(Setting::get('about_image'));
+            Setting::set('about_image', '');
+        }
+
+        if ($request->hasFile('about_image')) {
+            Media::delete(Setting::get('about_image'));
+            $relative = Media::store($request->file('about_image'), 'about');
+
+            if (! Media::exists($relative)) {
+                return back()->with('error', 'فشل حفظ الصورة التعريفية على السيرفر. تحقق من صلاحيات مجلد public/uploads');
+            }
+
+            Setting::set('about_image', $relative);
+        }
+
+        unset($data['site_logo'], $data['remove_logo'], $data['about_image'], $data['remove_about_image']);
 
         $data['logo_height'] = (string) ($data['logo_height'] ?? 48);
         $data['logo_width'] = isset($data['logo_width']) && $data['logo_width'] !== null

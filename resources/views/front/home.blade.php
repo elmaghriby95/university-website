@@ -53,7 +53,7 @@
             </div>
             <div class="col-6 col-md-3">
                 <div class="stat-num">{{ \App\Models\Setting::get('faculties_count', '12') }}</div>
-                <div>كلية</div>
+                <div>قسم</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="stat-num">{{ \App\Models\Setting::get('programs_count', '45') }}</div>
@@ -78,7 +78,12 @@
                 <a href="{{ route('about') }}" class="btn btn-navy px-4">اقرأ المزيد</a>
             </div>
             <div class="col-lg-6">
-                <div class="rounded-4 overflow-hidden shadow" style="min-height:320px;background:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80') center/cover;"></div>
+                @php
+                    $aboutImage = \App\Models\Setting::get('about_image');
+                    $aboutImageUrl = $aboutImage ? media_url($aboutImage) : null;
+                @endphp
+                <div class="rounded-4 overflow-hidden shadow"
+                     style="min-height:320px;@if($aboutImageUrl)background:url('{{ $aboutImageUrl }}') center/cover;@else background:#e9ecef;@endif"></div>
             </div>
         </div>
     </div>
@@ -88,7 +93,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <h2 class="section-title mb-1">كلياتنا</h2>
+                <h2 class="section-title mb-1">أقسامنا</h2>
                 <p class="section-sub mb-0">برامج أكاديمية متنوعة تلبي احتياجات سوق العمل</p>
             </div>
             <a href="{{ route('faculties.index') }}" class="btn btn-outline-primary d-none d-md-inline-flex">عرض الكل</a>

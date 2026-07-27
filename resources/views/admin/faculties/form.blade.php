@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', $item->exists ? 'تعديل كلية' : 'إضافة كلية')
-@section('heading', $item->exists ? 'تعديل كلية' : 'إضافة كلية')
+@section('title', $item->exists ? 'تعديل قسم' : 'إضافة قسم')
+@section('heading', $item->exists ? 'تعديل قسم' : 'إضافة قسم')
 
 @section('content')
 <div class="form-card">
@@ -10,11 +10,11 @@
         @if($item->exists) @method('PUT') @endif
         <div class="row g-3">
             <div class="col-md-6">
-                <label class="form-label">اسم الكلية</label>
+                <label class="form-label">اسم القسم</label>
                 <input type="text" name="name" value="{{ old('name', $item->name) }}" class="form-control" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">العميد</label>
+                <label class="form-label">رئيس القسم</label>
                 <input type="text" name="dean" value="{{ old('dean', $item->dean) }}" class="form-control">
             </div>
             <div class="col-12">
@@ -26,7 +26,7 @@
                 <input type="number" name="students_count" value="{{ old('students_count', $item->students_count ?? 0) }}" class="form-control" min="0">
             </div>
             <div class="col-md-4">
-                <label class="form-label">عدد الأقسام</label>
+                <label class="form-label">عدد التخصصات</label>
                 <input type="number" name="departments_count" value="{{ old('departments_count', $item->departments_count ?? 0) }}" class="form-control" min="0">
             </div>
             <div class="col-md-4">
@@ -41,7 +41,7 @@
             <div class="col-md-6 d-flex align-items-end">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active" @checked(old('is_active', $item->is_active ?? true))>
-                    <label class="form-check-label" for="is_active">نشطة</label>
+                    <label class="form-check-label" for="is_active">نشط</label>
                 </div>
             </div>
             <div class="col-12">

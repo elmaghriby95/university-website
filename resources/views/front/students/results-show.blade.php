@@ -16,7 +16,7 @@
             <div class="row g-3">
                 <div class="col-md-4"><strong>الاسم:</strong> {{ $student->full_name }}</div>
                 <div class="col-md-4"><strong>رقم القيد:</strong> {{ $student->registration_number }}</div>
-                <div class="col-md-4"><strong>الكلية:</strong> {{ $student->faculty?->name ?? '—' }}</div>
+                <div class="col-md-4"><strong>القسم:</strong> {{ $student->faculty?->name ?? '—' }}</div>
             </div>
         </div>
 

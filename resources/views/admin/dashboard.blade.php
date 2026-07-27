@@ -7,7 +7,7 @@
 <div class="row g-3 mb-4">
     <div class="col-md-3"><div class="stat-card"><div class="text-muted small">الأخبار</div><div class="num">{{ $newsCount }}</div></div></div>
     <div class="col-md-3"><div class="stat-card"><div class="text-muted small">الفعاليات</div><div class="num">{{ $eventsCount }}</div></div></div>
-    <div class="col-md-3"><div class="stat-card"><div class="text-muted small">الكليات</div><div class="num">{{ $facultiesCount }}</div></div></div>
+    <div class="col-md-3"><div class="stat-card"><div class="text-muted small">الأقسام</div><div class="num">{{ $facultiesCount }}</div></div></div>
     <div class="col-md-3"><div class="stat-card"><div class="text-muted small">رسائل غير مقروءة</div><div class="num">{{ $messagesCount }}</div></div></div>
 </div>
 

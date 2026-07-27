@@ -20,12 +20,10 @@
                     <td>@if($item->is_published)<span class="badge text-bg-success">منشورة</span>@else<span class="badge text-bg-secondary">مسودة</span>@endif</td>
                     <td class="text-end">
                         <a href="{{ route('admin.pages.edit', $item) }}" class="btn btn-sm btn-outline-primary">تعديل</a>
-                        @unless(in_array($item->slug, ['about', 'admissions'], true))
                         <form action="{{ route('admin.pages.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('حذف الصفحة؟')">
                             @csrf @method('DELETE')
                             <button class="btn btn-sm btn-outline-danger">حذف</button>
                         </form>
-                        @endunless
                     </td>
                 </tr>
             @endforeach
