@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="form-card">
-    <form method="POST" action="{{ route('admin.settings.update') }}">
+    <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row g-3">
@@ -17,6 +17,55 @@
                 <label class="form-label">الشعار الفرعي</label>
                 <input type="text" name="site_tagline" value="{{ old('site_tagline', $settings['site_tagline']) }}" class="form-control">
             </div>
+
+            <div class="col-12">
+                <hr>
+                <h2 class="h6 mb-3">شعار الجامعة</h2>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">رفع الشعار</label>
+                <input type="file" name="site_logo" class="form-control @error('site_logo') is-invalid @enderror" accept="image/*">
+                <div class="form-text">PNG / JPG / WEBP / GIF — بحد أقصى 2MB</div>
+                @error('site_logo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">ارتفاع الشعار (px)</label>
+                <input type="number" name="logo_height" min="20" max="200" value="{{ old('logo_height', $settings['logo_height'] ?: 48) }}" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">عرض الشعار (px)</label>
+                <input type="number" name="logo_width" min="20" max="400" value="{{ old('logo_width', $settings['logo_width']) }}" class="form-control" placeholder="تلقائي">
+                <div class="form-text">اتركه فارغاً للحفاظ على النسبة</div>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="logo_show_name" value="1" id="logo_show_name" @checked(old('logo_show_name', $settings['logo_show_name']) == '1')>
+                    <label class="form-check-label" for="logo_show_name">إظهار اسم الجامعة بجانب الشعار</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @if(!empty($settings['site_logo']))
+                    <div class="p-3 rounded border bg-light">
+                        <div class="small text-muted mb-2">الشعار الحالي</div>
+                        <img src="{{ asset('storage/'.$settings['site_logo']) }}"
+                             alt="شعار الجامعة"
+                             style="height: {{ (int) ($settings['logo_height'] ?: 48) }}px; @if($settings['logo_width']) width: {{ (int) $settings['logo_width'] }}px; @endif object-fit: contain;">
+                        <div class="form-check mt-3 mb-0">
+                            <input class="form-check-input" type="checkbox" name="remove_logo" value="1" id="remove_logo">
+                            <label class="form-check-label text-danger" for="remove_logo">حذف الشعار الحالي</label>
+                        </div>
+                    </div>
+                @else
+                    <div class="alert alert-light mb-0">لم يتم رفع شعار بعد — سيظهر أيقونة افتراضية.</div>
+                @endif
+            </div>
+
+            <div class="col-12">
+                <hr>
+                <h2 class="h6 mb-3">معلومات التواصل والإحصائيات</h2>
+            </div>
+
             <div class="col-12">
                 <label class="form-label">نبذة قصيرة</label>
                 <textarea name="about_short" rows="3" class="form-control">{{ old('about_short', $settings['about_short']) }}</textarea>

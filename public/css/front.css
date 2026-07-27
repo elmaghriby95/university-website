@@ -38,6 +38,12 @@ body {
     font-size: 1.35rem;
 }
 
+.site-logo {
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+}
+
 .navbar-brand small { font-size: .7rem; display: block; }
 .nav-link { font-weight: 600; }
 .nav-link.active, .nav-link:hover { color: var(--uni-gold) !important; }

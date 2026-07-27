@@ -38,11 +38,26 @@
     <nav class="navbar navbar-expand-lg navbar-dark site-nav sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
-                <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
-                <span>
-                    <strong class="d-block lh-1">{{ $siteName }}</strong>
-                    <small class="opacity-75">{{ $siteTagline }}</small>
-                </span>
+                @php
+                    $siteLogo = \App\Models\Setting::get('site_logo');
+                    $logoHeight = (int) (\App\Models\Setting::get('logo_height', 48) ?: 48);
+                    $logoWidth = \App\Models\Setting::get('logo_width');
+                    $logoShowName = \App\Models\Setting::get('logo_show_name', '1') === '1';
+                @endphp
+                @if($siteLogo)
+                    <img src="{{ asset('storage/'.$siteLogo) }}"
+                         alt="{{ $siteName }}"
+                         class="site-logo"
+                         style="height: {{ $logoHeight }}px; @if($logoWidth) width: {{ (int) $logoWidth }}px; @endif">
+                @else
+                    <span class="brand-mark"><i class="bi bi-mortarboard-fill"></i></span>
+                @endif
+                @if($logoShowName || ! $siteLogo)
+                    <span>
+                        <strong class="d-block lh-1">{{ $siteName }}</strong>
+                        <small class="opacity-75">{{ $siteTagline }}</small>
+                    </span>
+                @endif
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
@@ -69,7 +84,13 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <h5 class="text-white mb-3">{{ $siteName }}</h5>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        @if($siteLogo ?? \App\Models\Setting::get('site_logo'))
+                            @php $footerLogo = $siteLogo ?? \App\Models\Setting::get('site_logo'); @endphp
+                            <img src="{{ asset('storage/'.$footerLogo) }}" alt="{{ $siteName }}" style="height: 40px; object-fit: contain;">
+                        @endif
+                        <h5 class="text-white mb-0">{{ $siteName }}</h5>
+                    </div>
                     <p class="footer-text">{{ \App\Models\Setting::get('about_short', 'جامعة رائدة تهدف إلى إعداد كوادر مؤهلة قادرة على خدمة المجتمع والمساهمة في التنمية.') }}</p>
                 </div>
                 <div class="col-6 col-lg-2">

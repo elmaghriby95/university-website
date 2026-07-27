@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class SettingController extends Controller
@@ -12,14 +13,20 @@ class SettingController extends Controller
     public function edit(): View
     {
         $keys = [
-            'site_name', 'site_tagline', 'contact_email', 'contact_phone',
+            'site_name', 'site_tagline', 'site_logo', 'logo_height', 'logo_width',
+            'logo_show_name', 'contact_email', 'contact_phone',
             'contact_address', 'facebook', 'twitter', 'instagram', 'youtube',
             'about_short', 'students_count', 'faculties_count', 'programs_count', 'years_count',
         ];
 
         $settings = [];
         foreach ($keys as $key) {
-            $settings[$key] = Setting::get($key, '');
+            $settings[$key] = Setting::get($key, match ($key) {
+                'logo_height' => '48',
+                'logo_width' => '',
+                'logo_show_name' => '1',
+                default => '',
+            });
         }
 
         return view('admin.settings.edit', compact('settings'));
@@ -30,6 +37,11 @@ class SettingController extends Controller
         $data = $request->validate([
             'site_name' => ['required', 'string', 'max:255'],
             'site_tagline' => ['nullable', 'string', 'max:255'],
+            'site_logo' => ['nullable', 'file', 'mimes:png,jpg,jpeg,webp,gif', 'max:2048'],
+            'logo_height' => ['nullable', 'integer', 'min:20', 'max:200'],
+            'logo_width' => ['nullable', 'integer', 'min:20', 'max:400'],
+            'logo_show_name' => ['nullable', 'boolean'],
+            'remove_logo' => ['nullable', 'boolean'],
             'contact_email' => ['nullable', 'email', 'max:255'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
             'contact_address' => ['nullable', 'string', 'max:500'],
@@ -44,10 +56,35 @@ class SettingController extends Controller
             'years_count' => ['nullable', 'string', 'max:50'],
         ]);
 
+        if ($request->boolean('remove_logo')) {
+            $this->deleteLogo(Setting::get('site_logo'));
+            Setting::set('site_logo', '');
+        }
+
+        if ($request->hasFile('site_logo')) {
+            $this->deleteLogo(Setting::get('site_logo'));
+            Setting::set('site_logo', $request->file('site_logo')->store('settings', 'public'));
+        }
+
+        unset($data['site_logo'], $data['remove_logo']);
+
+        $data['logo_height'] = (string) ($data['logo_height'] ?? 48);
+        $data['logo_width'] = isset($data['logo_width']) && $data['logo_width'] !== null
+            ? (string) $data['logo_width']
+            : '';
+        $data['logo_show_name'] = $request->boolean('logo_show_name') ? '1' : '0';
+
         foreach ($data as $key => $value) {
             Setting::set($key, $value);
         }
 
         return back()->with('success', 'تم حفظ الإعدادات بنجاح.');
+    }
+
+    private function deleteLogo(?string $path): void
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }
