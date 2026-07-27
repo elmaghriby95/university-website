@@ -11,10 +11,12 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\StudentController as AdminStudentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/media/site-logo', [MediaController::class, 'siteLogo'])->name('media.logo');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/admissions', [HomeController::class, 'admissions'])->name('admissions');
 Route::get('/faculties', [HomeController::class, 'faculties'])->name('faculties.index');

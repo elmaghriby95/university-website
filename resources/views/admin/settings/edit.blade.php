@@ -45,13 +45,23 @@
                 </div>
             </div>
             <div class="col-md-6">
+                @php
+                    $logoUrl = !empty($settings['site_logo']) ? \App\Models\Setting::logoUrl($settings['site_logo']) : null;
+                    $logoExists = !empty($settings['site_logo']) && \App\Models\Setting::logoExists($settings['site_logo']);
+                @endphp
                 @if(!empty($settings['site_logo']))
                     <div class="p-3 rounded border bg-light">
                         <div class="small text-muted mb-2">الشعار الحالي</div>
-                        <img src="{{ \App\Models\Setting::logoUrl($settings['site_logo']) }}"
-                             alt="شعار الجامعة"
-                             style="height: {{ (int) ($settings['logo_height'] ?: 48) }}px; @if($settings['logo_width']) width: {{ (int) $settings['logo_width'] }}px; @endif object-fit: contain;">
-                        <div class="small text-muted mt-2">المسار: {{ $settings['site_logo'] }}</div>
+                        @if($logoUrl && $logoExists)
+                            <img src="{{ $logoUrl }}"
+                                 alt="شعار الجامعة"
+                                 style="height: {{ (int) ($settings['logo_height'] ?: 48) }}px; @if($settings['logo_width']) width: {{ (int) $settings['logo_width'] }}px; @endif object-fit: contain; background:#fff; padding:6px; border-radius:8px;">
+                            <div class="small text-success mt-2">الملف موجود ويعمل</div>
+                            <div class="small text-muted">الرابط: <a href="{{ $logoUrl }}" target="_blank">{{ $logoUrl }}</a></div>
+                        @else
+                            <div class="alert alert-danger mb-2">الملف غير موجود على السيرفر. ارفع الشعار من جديد.</div>
+                        @endif
+                        <div class="small text-muted mt-2">المسار المحفوظ: <code>{{ $settings['site_logo'] }}</code></div>
                         <div class="form-check mt-3 mb-0">
                             <input class="form-check-input" type="checkbox" name="remove_logo" value="1" id="remove_logo">
                             <label class="form-check-label text-danger" for="remove_logo">حذف الشعار الحالي</label>

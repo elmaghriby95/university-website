@@ -67,10 +67,18 @@ class SettingController extends Controller
             $directory = public_path('uploads/logos');
             File::ensureDirectoryExists($directory);
 
-            $filename = 'logo-'.time().'.'.$request->file('site_logo')->getClientOriginalExtension();
+            $extension = strtolower($request->file('site_logo')->getClientOriginalExtension() ?: 'png');
+            $filename = 'logo-'.time().'.'.$extension;
             $request->file('site_logo')->move($directory, $filename);
 
-            Setting::set('site_logo', 'uploads/logos/'.$filename);
+            $relative = 'uploads/logos/'.$filename;
+            $full = public_path($relative);
+
+            if (! is_file($full)) {
+                return back()->with('error', 'فشل حفظ ملف الشعار على السيرفر. تحقق من صلاحيات مجلد public/uploads/logos');
+            }
+
+            Setting::set('site_logo', $relative);
         }
 
         unset($data['site_logo'], $data['remove_logo']);

@@ -24,7 +24,7 @@ class Setting extends Model
         Cache::forget('site_settings');
     }
 
-    public static function logoUrl(?string $path = null): ?string
+    public static function logoFullPath(?string $path = null): ?string
     {
         $path = $path ?? static::get('site_logo');
 
@@ -33,9 +33,32 @@ class Setting extends Model
         }
 
         if (str_starts_with($path, 'uploads/')) {
-            return asset($path);
+            return public_path($path);
         }
 
-        return asset('storage/'.$path);
+        return storage_path('app/public/'.$path);
+    }
+
+    public static function logoExists(?string $path = null): bool
+    {
+        $full = static::logoFullPath($path);
+
+        return $full && is_file($full);
+    }
+
+    /**
+     * Always serve via Laravel route so it works even if APP_URL / storage link is wrong.
+     */
+    public static function logoUrl(?string $path = null): ?string
+    {
+        $path = $path ?? static::get('site_logo');
+
+        if (! $path || ! static::logoExists($path)) {
+            return null;
+        }
+
+        $version = @filemtime(static::logoFullPath($path)) ?: time();
+
+        return route('media.logo', ['v' => $version]);
     }
 }
